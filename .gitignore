@@ -1,6 +1,6 @@
 node_modules/
 dist/
 .env
-.csv
+csv_files/*.csv
 *.log
 .DS_Store
