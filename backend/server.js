@@ -6,13 +6,15 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.post("/predict", (req, res) => {
-  exec("python3 backend/script/predict.py", (error, stdout, stderr) => {
+app.post("/run", (req, res) => {
+  const { script, variables } = req.body;
+  const command = `python3 backend/script/${script}.py ${variables.join(" ")}`;
+
+  exec(command, (error, stdout, stderr) => {
     if (error) {
-      res.status(500).json({ error: stderr });
-    } else {
-      res.json({ prediction: stdout.trim() });
+      return res.status(500).json({ error: stderr });
     }
+    res.json({ output: stdout.trim() });
   });
 });
 
