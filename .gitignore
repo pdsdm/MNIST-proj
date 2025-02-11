@@ -4,3 +4,5 @@ dist/
 csv_files/*.csv
 *.log
 .DS_Store
+__pycache__/
+dataset/
