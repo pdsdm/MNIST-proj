@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import train_csv from "../../../dataset/csv/train.csv";
+import test_csv from "../../../dataset/csv/test.csv";
 
 function App() {
   const [script, setScript] = useState("");

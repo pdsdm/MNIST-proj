@@ -7,8 +7,8 @@ app.use(express.json());
 app.use(cors());
 
 app.post("/run", (req, res) => {
-  const { script, variables } = req.body;
-  const command = `python3 backend/script/${script}.py ${variables.join(" ")}`;
+  const { variables } = req.body;
+  const command = `python3 backend/script/main.py ${variables.join(" ")}`;
 
   exec(command, (error, stdout, stderr) => {
     if (error) {

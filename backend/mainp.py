@@ -26,10 +26,18 @@ test_csv = "dataset/csv/test.csv"
 
 train_list, test_list = csv_convert_list(train_csv, test_csv)
 
-layer1, layer2, epochs, lr, decay = 128, 64, 3, 2, 0.1
+import sys
+
+script = int(sys.argv[0])  
+layer1 = int(sys.argv[1])  
+layer2 = int(sys.argv[2])  
+epochs = int(sys.argv[3])  
+lr = float(sys.argv[4])    
+decay = float(sys.argv[5]) 
+num = int(sys.argv[6])
+
 
 dnn = train_model(train_list, test_list, layer1, layer2, epochs, lr, decay)
-
 num = 12
 
 #print(forwarding_output(None, num, train_list, dnn))
