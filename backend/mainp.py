@@ -28,7 +28,6 @@ train_list, test_list = csv_convert_list(train_csv, test_csv)
 
 import sys
 
-script = int(sys.argv[0])  
 layer1 = int(sys.argv[1])  
 layer2 = int(sys.argv[2])  
 epochs = int(sys.argv[3])  
@@ -38,9 +37,7 @@ num = int(sys.argv[6])
 
 
 dnn = train_model(train_list, test_list, layer1, layer2, epochs, lr, decay)
-num = 12
 
-#print(forwarding_output(None, num, train_list, dnn))
+print(forwarding_output(None, num, train_list, dnn))
 #Representations.rep_imag(train_list, num)
 
-show_imgs_bad(train_list, dnn, 50)

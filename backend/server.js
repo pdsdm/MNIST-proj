@@ -8,12 +8,16 @@ app.use(cors());
 
 app.post("/run", (req, res) => {
   const { variables } = req.body;
-  const command = `python3 backend/script/main.py ${variables.join(" ")}`;
+  const command = `python3 backend/mainp.py ${variables.join(" ")}`;
+
+  console.log("Ejecutando comando:", command);
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
+      console.error("Error al ejecutar el script:", stderr);
       return res.status(500).json({ error: stderr });
     }
+    console.log("Salida del script:", stdout);
     res.json({ output: stdout.trim() });
   });
 });
