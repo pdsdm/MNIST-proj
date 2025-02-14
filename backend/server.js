@@ -10,7 +10,7 @@ app.post("/run", (req, res) => {
   const { variables } = req.body;
   const command = `python3 backend/mainp.py ${variables.join(" ")}`;
 
-  console.log("Ejecutando comando:", command);
+  console.log("Command:", command);
 
   exec(command, (error, stdout, stderr) => {
     if (error) {
