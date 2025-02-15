@@ -9,6 +9,7 @@ from train import train_model
 from predict import forwarding_output
 from representations import Representations
 from show_bad import show_imgs_bad
+import pickle
 
 
 train_x = "dataset/ubyte/train-images.idx3-ubyte"
@@ -28,16 +29,46 @@ train_list, test_list = csv_convert_list(train_csv, test_csv)
 
 import sys
 
-layer1 = int(sys.argv[1])  
-layer2 = int(sys.argv[2])  
-epochs = int(sys.argv[3])  
-lr = float(sys.argv[4])    
-decay = float(sys.argv[5]) 
-num = int(sys.argv[6])
+script = str(sys.argv[1])
+
+if script == "predict":
+    num = int(sys.argv[2])
+if script == "train":
+    layer1 = int(sys.argv[2])  
+    layer2 = int(sys.argv[3])  
+    epochs = int(sys.argv[4])  
+    lr = float(sys.argv[5])    
+    decay = float(sys.argv[6]) 
 
 
-dnn = train_model(train_list, test_list, layer1, layer2, epochs, lr, decay)
 
-print(forwarding_output(None, num, train_list, dnn))
+if script == "train":
+    dnn = train_model(train_list, test_list, layer1, layer2, epochs, lr, decay)
+    with open("dnn.pkl", "wb") as f:
+        pickle.dump(dnn, f)  
+
+if script == "predict":
+    import pickle
+    try:
+        with open("dnn.pkl", "rb") as f:
+            dnn = pickle.load(f)  
+
+        prediccion = forwarding_output(None, num, train_list, dnn)
+
+        # Convertir la imagen a array de floats correctamente
+        image_data = list(map(float, train_list[num][1:]))  # Omitimos el label
+        if len(image_data) != 784:
+            raise ValueError(f"Error: La imagen en train_list[{num}] tiene {len(image_data)} valores en lugar de 784.")
+
+        images_array = np.array(image_data).reshape(28, 28)  # Convertir y reorganizar en matriz 28x28
+        plt.imshow(images_array, cmap="gray")
+        plt.axis("off")
+        plt.savefig("static/predicted_image.png")
+
+        print(prediccion)
+
+    except FileNotFoundError:
+        print("Error: No se encontró el modelo entrenado. Ejecuta 'train' primero.")
+
 #Representations.rep_imag(train_list, num)
 
