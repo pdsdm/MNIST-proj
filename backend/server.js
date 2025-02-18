@@ -1,13 +1,22 @@
 const express = require("express");
 const cors = require("cors");
+const bodyParser = require("body-parser");
 const { exec } = require("child_process");
+const fs = require("fs");
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(bodyParser.json({ limit: "10mb" }));
 
-app.post("/run", (req, res) => {
-  const { variables } = req.body;
+app.post("/run", async (req, res) => {
+  const { variables, image } = req.body;
+  const useCanvas = variables.includes("paint");
+
+  if (useCanvas && image) {
+    const buffer = Buffer.from(image.split(",")[1], "base64");
+    fs.writeFileSync("backend/digit_canvas.png", buffer);
+  }
+
   const command = `python3 backend/mainp.py ${variables.join(" ")}`;
 
   exec(command, (error, stdout, stderr) => {
@@ -17,8 +26,11 @@ app.post("/run", (req, res) => {
         .status(500)
         .json({ output: `Error al ejecutar el script: ${stderr}` });
     }
-    console.log(`Salida del script: ${stdout}`);
-    res.json({ output: stdout.trim() });
+
+    res.json({
+      output: stdout.trim(),
+      imageUrl: useCanvas ? "/predicted_image.png" : null,
+    });
   });
 });
 

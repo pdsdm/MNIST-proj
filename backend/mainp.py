@@ -48,7 +48,7 @@ if script == "train":
         pickle.dump(dnn, f)  
 
 if script == "predict":
-    if num >= train_list:
+    if num >= len(train_list):
         print("Error, num out of index")
     else:
         import pickle
@@ -57,6 +57,14 @@ if script == "predict":
                 dnn = pickle.load(f)  
 
             prediccion = forwarding_output(None, num, train_list, dnn)
+
+            values = train_list[num].split(",")
+            image_data = np.asarray(values[1:], dtype=float).reshape((28,28))
+            plt.imshow(image_data, cmap="Grays")
+            plt.axis("off")
+            plt.savefig("frontend/MNIST-poj-react/public/predicted_image.png", bbox_inches="tight")
+
+
             print(prediccion)
 
         except FileNotFoundError:
