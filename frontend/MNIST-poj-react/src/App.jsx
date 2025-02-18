@@ -5,7 +5,6 @@ function App() {
   const [variables, setVariables] = useState("");
   const [scriptExecute, setScriptExecute] = useState("predict");
   const [output, setOutput] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null); // Estado para manejar la imagen
 
   const handleRunScript = async () => {
     try {
@@ -15,7 +14,6 @@ function App() {
       });
 
       setOutput(response.data.output);
-      setImageUrl(scriptExecute === "predict" ? response.data.imageUrl : null);
     } catch (error) {
       alert("Error al ejecutar el script");
       console.error(error);
@@ -53,13 +51,6 @@ function App() {
       <button onClick={handleRunScript}>Ejecutar</button>
 
       {output && <h2>Resultado: {output}</h2>}
-
-      {imageUrl && scriptExecute === "predict" && (
-        <div>
-          <h2>Imagen seleccionada:</h2>
-          <img src={imageUrl} alt="Predicción" width="200" />
-        </div>
-      )}
     </div>
   );
 }
