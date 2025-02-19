@@ -10,6 +10,8 @@ from predict import forwarding_output
 from representations import Representations
 from show_bad import show_imgs_bad
 import pickle
+from PIL import Image
+import os
 
 
 train_x = "dataset/ubyte/train-images.idx3-ubyte"
@@ -69,6 +71,19 @@ if script == "predict":
 
         except FileNotFoundError:
             print("Error: No se encontró el modelo entrenado. Ejecuta 'train' primero.")
+
+if script == "paint":
+    imagen = Image.open("backend/digit_canvas.png").convert("L")
+    imagen = np.asarray(imagen)
+    imagen_array = 255 - imagen
+    imagen_procesada = imagen_array.flatten()
+    
+
+    with open("dnn.pkl", "rb") as f:
+        dnn = pickle.load(f)  
+    nousar, prediction = forwarding_output(imagen_procesada, None, None, dnn)
+    print(prediction)
+
 
 #Representations.rep_imag(train_list, num)
 
