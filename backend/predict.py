@@ -15,6 +15,6 @@ def forwarding_output(input_data, num, list, neural):
         return None, None
     result = neural.forward_pass(inputs)
     np.set_printoptions(suppress=True, precision=4)
-
+    print(result)
     predicted_label = int(np.argmax(result)) 
     return actual_num, predicted_label 

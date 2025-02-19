@@ -74,12 +74,11 @@ function App() {
 
       {output && <h2>Resultado: {output}</h2>}
 
-      {imageUrl &&
-        (scriptExecute === "predict" || scriptExecute === "paint") && (
-          <div className="img-on-disp">
-            <img src={imageUrl} alt="Predicción" width="200" />
-          </div>
-        )}
+      {imageUrl && scriptExecute === "predict" && (
+        <div className="img-on-disp">
+          <img src={imageUrl} alt="Predicción" width="200" />
+        </div>
+      )}
     </div>
   );
 }

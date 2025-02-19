@@ -6,4 +6,5 @@ csv_files/*.csv
 .DS_Store
 __pycache__/
 dataset/
-png_files/*.png
+*.png
+*.pkl
