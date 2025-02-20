@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import "./app.css";
 import Canvas from "./Canvas"; // Importamos el canvas
 
 function App() {
@@ -39,36 +40,40 @@ function App() {
   };
 
   return (
-    <div>
-      <h1>Script to execute</h1>
+    <div className="pantalazo">
+      <div className="title">
+        <h3>Script to execute</h3>
+      </div>
+      <div className="cubo-orig">
+        <div className="selec-script">
+          <select
+            value={scriptExecute}
+            onChange={(e) => setScriptExecute(e.target.value)}
+          >
+            <option value="predict">Predict</option>
+            <option value="train">Train Model</option>
+            <option value="paint">Paint</option>
+          </select>
+          {scriptExecute !== "paint" &&
+            (scriptExecute === "train" ? (
+              <input
+                type="text"
+                placeholder="Introduce variables separadas por comas"
+                value={variables}
+                onChange={(e) => setVariables(e.target.value)}
+              />
+            ) : (
+              <input
+                type="number"
+                placeholder="Introduce un número"
+                value={variables}
+                onChange={(e) => setVariables(e.target.value)}
+              />
+            ))}
 
-      <select
-        value={scriptExecute}
-        onChange={(e) => setScriptExecute(e.target.value)}
-      >
-        <option value="predict">Predict</option>
-        <option value="train">Train Model</option>
-        <option value="paint">Paint</option>
-      </select>
-
-      {scriptExecute !== "paint" &&
-        (scriptExecute === "train" ? (
-          <input
-            type="text"
-            placeholder="Introduce variables separadas por comas"
-            value={variables}
-            onChange={(e) => setVariables(e.target.value)}
-          />
-        ) : (
-          <input
-            type="number"
-            placeholder="Introduce un número"
-            value={variables}
-            onChange={(e) => setVariables(e.target.value)}
-          />
-        ))}
-
-      {scriptExecute === "paint" && <Canvas onPredict={handlePrediction} />}
+          {scriptExecute === "paint" && <Canvas onPredict={handlePrediction} />}
+        </div>
+      </div>
 
       <button onClick={handleRunScript}>Ejecutar</button>
 
