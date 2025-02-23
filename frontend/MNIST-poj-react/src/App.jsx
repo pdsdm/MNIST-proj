@@ -5,7 +5,7 @@ import Canvas from "./Canvas"; // Importamos el canvas
 
 function App() {
   const [variables, setVariables] = useState("");
-  const [scriptExecute, setScriptExecute] = useState("predict");
+  const [scriptExecute, setScriptExecute] = useState("paint");
   const [output, setOutput] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [canvasImage, setCanvasImage] = useState(null);
@@ -72,10 +72,10 @@ function App() {
             ))}
 
           {scriptExecute === "paint" && <Canvas onPredict={handlePrediction} />}
+
+          <button onClick={handleRunScript}>Ejecutar</button>
         </div>
       </div>
-
-      <button onClick={handleRunScript}>Ejecutar</button>
 
       {output && <h2>Resultado: {output}</h2>}
 

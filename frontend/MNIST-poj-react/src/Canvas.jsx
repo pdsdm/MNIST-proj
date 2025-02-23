@@ -53,7 +53,7 @@ function Canvas({ onPredict }) {
   };
 
   return (
-    <div>
+    <div className="cubo-orig">
       <canvas
         ref={canvasRef}
         width={28}
